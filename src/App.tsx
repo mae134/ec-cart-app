@@ -22,6 +22,8 @@ function App() {
         )
       }
 
+      console.log('Adding new item to cart:', product)
+
       return [...prev, { ...product, quantity: 1 }]
     })
   }
@@ -40,6 +42,21 @@ function App() {
           </button>
         </div>
       ))}
+      {/* カート */}
+      <div className="w-1/3 p-6 border-l">
+        <h2 className="text-xl font-bold mb-4">Cart</h2>
+
+        {cart.length === 0 ? (
+          <p className="text-gray-500">Cart is empty</p>
+        ) : (
+          cart.map(item => (
+            <div key={item.id} className="mb-3">
+              <p className="font-semibold">{item.name}</p>
+              <p>数量: {item.quantity}</p>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   )
 }
