@@ -40,6 +40,11 @@ function App() {
     )
   }
 
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  )
+
   return (
     <div className="p-6 grid grid-cols-2 gap-4">
       {products.map((p) => (
@@ -54,7 +59,7 @@ function App() {
           </button>
         </div>
       ))}
-      
+
       {cart.length === 0 ? (
         <p className="text-gray-500">Cart is empty</p>
       ) : (
@@ -83,6 +88,9 @@ function App() {
           </div>
         ))
       )}
+      <div className="mt-6 border-t pt-4">
+        <p className="text-lg font-bold">Total: ¥{totalPrice}</p>
+      </div>
     </div>
   )
 }
