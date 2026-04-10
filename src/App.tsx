@@ -2,6 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import { products } from './data/products'
 import type { Product } from './types/product'
+import ProductList from './components/ProductList'
+import Cart from './components/Cart'
 
 type CartItem = Product & {
   quantity: number
@@ -46,50 +48,18 @@ function App() {
   )
 
   return (
-    <div className="p-6 grid grid-cols-2 gap-4">
-      {products.map((p) => (
-        <div key={p.id} className="border rounded p-4">
-          <p className="font-bold">{p.name}</p>
-          <p>¥{p.price}</p>
-          <button
-            className="mt-2 px-4 py-1 bg-blue-500 text-white rounded"
-            onClick={() => addToCart(p)}
-          >
-            Add to Cart
-          </button>
-        </div>
-      ))}
 
-      {cart.length === 0 ? (
-        <p className="text-gray-500">Cart is empty</p>
-      ) : (
-        cart.map((item) => (
-          <div key={item.id} className="mb-3 border-b pb-3">
-            <p className="font-semibold">{item.name}</p>
-            <p>¥{item.price}</p>
 
-            <div className="mt-2 flex items-center gap-2">
-              <button
-                onClick={() => updateQuantity(item.id, -1)}
-                className="px-3 py-1 rounded bg-gray-200"
-              >
-                -
-              </button>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="mx-auto flex max-w-6xl overflow-hidden rounded-2xl bg-white shadow">
+      <ProductList products={products} onAddToCart={addToCart} />
 
-              <span>{item.quantity}</span>
-
-              <button
-                onClick={() => updateQuantity(item.id, 1)}
-                className="px-3 py-1 rounded bg-gray-200"
-              >
-                +
-              </button>
-            </div>
-          </div>
-        ))
-      )}
-      <div className="mt-6 border-t pt-4">
-        <p className="text-lg font-bold">Total: ¥{totalPrice}</p>
+      <Cart
+        cart={cart}
+        totalPrice={totalPrice}
+        onUpdateQuantity={updateQuantity}
+      >
+      </Cart>
       </div>
     </div>
   )
