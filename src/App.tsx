@@ -1,11 +1,11 @@
+import { Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
-import './App.css'
+import ProductsPage from './pages/ProductPage'
+import CartPage from './pages/CartPage'
 import { products } from './data/products'
 import type { Product } from './types/product'
-import ProductList from './components/ProductList'
-import Cart from './components/Cart'
 
-type CartItem = Product & {
+export type CartItem = Product & {
   quantity: number
 }
 
@@ -23,8 +23,6 @@ function App() {
             : item,
         )
       }
-
-      console.log('Adding new item to cart:', product)
 
       return [...prev, { ...product, quantity: 1 }]
     })
@@ -48,20 +46,28 @@ function App() {
   )
 
   return (
-
-
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="mx-auto flex max-w-6xl overflow-hidden rounded-2xl bg-white shadow">
-      <ProductList products={products} onAddToCart={addToCart} />
-
-      <Cart
-        cart={cart}
-        totalPrice={totalPrice}
-        onUpdateQuantity={updateQuantity}
-      >
-      </Cart>
-      </div>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <ProductsPage
+            products={products}
+            cart={cart}
+            onAddToCart={addToCart}
+          />
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <CartPage
+            cart={cart}
+            totalPrice={totalPrice}
+            onUpdateQuantity={updateQuantity}
+          />
+        }
+      />
+    </Routes>
   )
 }
 
