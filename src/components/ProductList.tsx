@@ -1,4 +1,5 @@
 import type { Product } from '../types/product'
+import { Link } from 'react-router-dom'
 
 type ProductListProps = {
   products: Product[]
@@ -10,7 +11,9 @@ function ProductList({ products, onAddToCart }: ProductListProps) {
     <div className="w-2/3 p-6 grid grid-cols-2 gap-4">
       {products.map((product) => (
         <div key={product.id} className="border rounded p-4">
-          <p className="font-bold">{product.name}</p>
+          <Link to={`/product/${product.id}`}>
+          <p className='font-bold text-blue-600 hover:underline'>{product.name}</p>
+          </Link>
           <p>¥{product.price}</p>
           <button
             onClick={() => onAddToCart(product)}
