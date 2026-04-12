@@ -1,50 +1,14 @@
 import { Routes, Route } from 'react-router-dom'
-import { useState } from 'react'
 import ProductsPage from './pages/ProductPage'
 import CartPage from './pages/CartPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import { products } from './data/products'
-import type { Product } from './types/product'
-
-export type CartItem = Product & {
-  quantity: number
-}
+import useCart  from './hooks/useCart'
 
 function App() {
-  const [cart, setCart] = useState<CartItem[]>([])
 
-  function addToCart(product: Product) {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id)
-
-      if (existing) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        )
-      }
-
-      return [...prev, { ...product, quantity: 1 }]
-    })
-  }
-
-  function updateQuantity(productId: number, delta: number) {
-    setCart((prev) =>
-      prev
-        .map((item) =>
-          item.id === productId
-            ? { ...item, quantity: item.quantity + delta }
-            : item,
-        )
-        .filter((item) => item.quantity > 0),
-    )
-  }
-
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  )
+  // カートの状態と操作関数をuseCartフックから取得
+  const { cart, addToCart, updateQuantity, totalPrice } = useCart()
 
   return (
     <Routes>

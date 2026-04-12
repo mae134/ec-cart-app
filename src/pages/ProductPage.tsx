@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import ProductList from '../components/ProductList'
 import type { Product } from '../types/product'
-import type { CartItem } from '../App'
+import type { CartItem } from '../hooks/useCart'
+
 
 type Props = {
   products: Product[]
