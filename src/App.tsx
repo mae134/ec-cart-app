@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import ProductsPage from './pages/ProductPage'
 import CartPage from './pages/CartPage'
+import ProductDetailPage from './pages/ProductDetailPage'
 import { products } from './data/products'
 import type { Product } from './types/product'
 
@@ -67,6 +68,7 @@ function App() {
           />
         }
       />
+      <Route path="/product/:id" element={<ProductDetailPage />} />
     </Routes>
   )
 }
