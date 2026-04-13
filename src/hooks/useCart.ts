@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Product } from '../types/product'
 
 
@@ -8,7 +8,15 @@ export type CartItem = Product & {
 
 function useCart() {
 
-  const [cart, setCart] = useState<CartItem[]>([])
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    const stored = localStorage.getItem('cart')
+    return stored ? JSON.parse(stored) : []
+  })
+
+  // カートの状態が変わるたびにlocalStorageに保存
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  }, [cart])
 
   function addToCart(product: Product) {
     setCart((prev) => {
