@@ -11,8 +11,13 @@ function ProductList({ products, onAddToCart }: ProductListProps) {
     <div className="w-2/3 p-6 grid grid-cols-2 gap-4">
       {products.map((product) => (
         <div key={product.id} className="border rounded p-4">
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="mb-4 h-40 w-full object-contain bg-white"
+          ></img>
           <Link to={`/product/${product.id}`}>
-          <p className='font-bold text-blue-600 hover:underline'>{product.name}</p>
+            <p className='font-bold text-blue-600 hover:underline'>{product.name}</p>
           </Link>
           <p>¥{product.price}</p>
           <button
