@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 import type { Product } from '../types/product'
 
-
 export type CartItem = Product & {
   quantity: number
 }
 
 function useCart() {
-
   const [cart, setCart] = useState<CartItem[]>(() => {
     const stored = localStorage.getItem('cart')
     return stored ? JSON.parse(stored) : []

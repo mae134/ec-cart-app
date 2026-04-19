@@ -22,10 +22,7 @@ function ProductDetailPage() {
         <h1 className="text-2xl font-bold">{product.name}</h1>
         <p className="mt-4 text-lg">¥{product.price}</p>
 
-        <Link
-          to="/"
-          className="mt-6 inline-block text-blue-500"
-        >
+        <Link to="/" className="mt-6 inline-block text-blue-500">
           ← Back
         </Link>
       </div>
