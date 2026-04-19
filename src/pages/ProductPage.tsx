@@ -2,16 +2,36 @@ import { Link } from 'react-router-dom'
 import ProductList from '../components/ProductList'
 import type { Product } from '../types/product'
 import type { CartItem } from '../hooks/useCart'
+import { useEffect, useState } from 'react'
+import { fetchProducts } from '../api/products'
 
 
 type Props = {
-  products: Product[]
   cart: CartItem[]
   onAddToCart: (product: Product) => void
 }
 
-function ProductsPage({ products, cart, onAddToCart }: Props) {
+function ProductPage({cart, onAddToCart }: Props) {
+
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
+
+    useEffect(() => {
+    async function loadProducts() {
+      try {
+        const data = await fetchProducts()
+        setProducts(data)
+      } catch {
+        setError('Failed to load products')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-200">
@@ -28,10 +48,14 @@ function ProductsPage({ products, cart, onAddToCart }: Props) {
       </header>
 
       <main className="mx-auto max-w-7xl p-6">
+        {loading && <p>Loading products...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+        {!loading && !error &&(
         <ProductList products={products} onAddToCart={onAddToCart} />
+        )}
       </main>
     </div>
   )
 }
 
-export default ProductsPage
+export default ProductPage

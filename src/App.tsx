@@ -1,8 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
-import ProductsPage from './pages/ProductPage'
+import ProductPage from './pages/ProductPage'
 import CartPage from './pages/CartPage'
 import ProductDetailPage from './pages/ProductDetailPage'
-import { products } from './data/products'
 import useCart  from './hooks/useCart'
 
 function App() {
@@ -15,8 +14,7 @@ function App() {
       <Route
         path="/"
         element={
-          <ProductsPage
-            products={products}
+          <ProductPage
             cart={cart}
             onAddToCart={addToCart}
           />
