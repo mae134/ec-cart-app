@@ -17,7 +17,9 @@ function ProductList({ products, onAddToCart }: ProductListProps) {
             className="mb-4 h-40 w-full object-contain bg-white"
           ></img>
           <Link to={`/product/${product.id}`}>
-            <p className='font-bold text-blue-600 hover:underline'>{product.name}</p>
+            <p className="font-bold text-blue-600 hover:underline">
+              {product.name}
+            </p>
           </Link>
           <p>¥{product.price}</p>
           <button

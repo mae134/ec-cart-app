@@ -5,20 +5,18 @@ import type { CartItem } from '../hooks/useCart'
 import { useEffect, useState } from 'react'
 import { fetchProducts } from '../api/products'
 
-
 type Props = {
   cart: CartItem[]
   onAddToCart: (product: Product) => void
 }
 
-function ProductPage({cart, onAddToCart }: Props) {
-
+function ProductPage({ cart, onAddToCart }: Props) {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
 
-    useEffect(() => {
+  useEffect(() => {
     async function loadProducts() {
       try {
         const data = await fetchProducts()
@@ -50,8 +48,8 @@ function ProductPage({cart, onAddToCart }: Props) {
       <main className="mx-auto max-w-7xl p-6">
         {loading && <p>Loading products...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        {!loading && !error &&(
-        <ProductList products={products} onAddToCart={onAddToCart} />
+        {!loading && !error && (
+          <ProductList products={products} onAddToCart={onAddToCart} />
         )}
       </main>
     </div>
