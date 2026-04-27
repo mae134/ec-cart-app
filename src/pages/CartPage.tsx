@@ -20,6 +20,12 @@ function CartPage({ cart, totalPrice, onUpdateQuantity }: Props) {
           >
             Back to Products
           </Link>
+          <Link
+            to="/checkout"
+            className="mt-4 block rounded bg-yellow-400 px-4 py-2 text-center font-medium text-gray-900"
+          >
+            Proceed to Checkout
+          </Link>
         </div>
       </header>
 
