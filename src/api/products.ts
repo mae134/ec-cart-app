@@ -25,3 +25,22 @@ export async function fetchProducts(): Promise<Product[]> {
     imageUrl: item.image_url,
   }))
 }
+
+export async function fetchProductById(id: number): Promise<Product> {
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return {
+    id: data.id,
+    name: data.name,
+    price: data.price,
+    imageUrl: data.image_url,
+  }
+}

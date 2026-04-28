@@ -1,10 +1,25 @@
 import { useParams, Link } from 'react-router-dom'
-import { products } from '../data/products'
+import type { Product } from '../types/product'
+import { fetchProductById } from '../api/products'
+import { useEffect, useState } from 'react'
+
 
 function ProductDetailPage() {
-  const { id } = useParams()
 
-  const product = products.find((p) => p.id === Number(id))
+  // URLパラメータから商品IDを取得
+  const { id } = useParams()
+  
+  const [product, setProduct] = useState<Product | null>(null)
+
+  useEffect(() => {
+    async function load() {
+      if (!id) return
+      const data = await fetchProductById(Number(id))
+      setProduct(data)
+    }
+
+    load()
+  }, [id])
 
   if (!product) {
     return <p>Product not found</p>
