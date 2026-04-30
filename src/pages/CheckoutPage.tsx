@@ -18,8 +18,23 @@ function CheckoutPage({ cart, totalPrice }: Props) {
   const navigate = useNavigate()
 
   const handleSubmit = () => {
-    if (!form.name || !form.email || !form.address || !form.phone) {
+
+    // 以下各バリデーション
+    // カートが空なら注文できない
+    if (cart.length === 0) {
+      alert('Your cart is empty')
+      return
+    }
+
+    // 各項目の入力チェック
+    if (!form.name.trim() || !form.email.trim() || !form.address.trim() || !form.phone.trim()) {
       alert('Please fill in all fields')
+      return
+    }
+
+    // 簡単なメールアドレス
+    if (!form.email.includes('@')) {
+      alert('Please enter a valid email')
       return
     }
 
