@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import type { CartItem } from '../hooks/useCart'
 import { useState } from 'react'
+import { createOrder } from '../api/orders'
 
 type Props = {
   cart: CartItem[]
@@ -17,7 +18,7 @@ function CheckoutPage({ cart, totalPrice }: Props) {
   })
   const navigate = useNavigate()
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
 
     // 以下各バリデーション
     // カートが空なら注文できない
@@ -38,8 +39,21 @@ function CheckoutPage({ cart, totalPrice }: Props) {
       return
     }
 
-    // オーダー完了画面へ遷移
-    navigate('/order-complete')
+    try {
+      await createOrder({
+        cusutomerName: form.name,
+        email: form.email,
+        address: form.address,
+        phone: form.phone,
+        totalPrice
+      })
+
+      // オーダー完了画面へ遷移
+      navigate('/order-complete')
+    } catch (error) {
+      alert('Failed to place order')
+      return
+    }
   }
 
   return (
@@ -92,7 +106,7 @@ function CheckoutPage({ cart, totalPrice }: Props) {
           />
         </div>
 
-        {/* フォーム遷移処理なのでボタンにする */}
+        {/* 入力チェック後に遷移するため、Linkではなくbuttonを使う */}
         <button
           type="button"
           onClick={handleSubmit}
