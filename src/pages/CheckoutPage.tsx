@@ -6,14 +6,15 @@ import { createOrder } from '../api/orders'
 type Props = {
   cart: CartItem[]
   totalPrice: number
+  clearCart: () => void
 }
 
-function CheckoutPage({ cart, totalPrice }: Props) {
+function CheckoutPage({ cart, totalPrice, clearCart }: Props) {
 
   const [form, setForm] = useState({
     name: '',
     email: '',
-    address: '',
+    address: '', 
     phone: '',
   })
   const navigate = useNavigate()
@@ -48,6 +49,8 @@ function CheckoutPage({ cart, totalPrice }: Props) {
         totalPrice
       })
 
+            // カートをクリア
+      clearCart()
       // オーダー完了画面へ遷移
       navigate('/order-complete')
     } catch (error) {

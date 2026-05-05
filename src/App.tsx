@@ -8,7 +8,7 @@ import OrderCompletePage from './pages/OrderCompletePage'
 
 function App() {
   // カートの状態と操作関数をuseCartフックから取得
-  const { cart, addToCart, updateQuantity, totalPrice } = useCart()
+  const { cart, addToCart, updateQuantity, totalPrice, clearCart } = useCart()
 
   return (
     <Routes>
@@ -36,7 +36,7 @@ function App() {
       {/* チェックアウトページ */}
       <Route
         path="/checkout"
-        element={<CheckoutPage cart={cart} totalPrice={totalPrice} />}
+        element={<CheckoutPage cart={cart} totalPrice={totalPrice} clearCart={clearCart} />}
       />
 
         {/* 注文完了ページ */}
