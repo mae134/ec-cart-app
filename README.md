@@ -1,4 +1,4 @@
-## 🛒 EC App
+# 🛒 EC App
 
 A simple e-commerce web application built with React, TypeScript, and Supabase.
 
@@ -19,3 +19,11 @@ A simple e-commerce web application built with React, TypeScript, and Supabase.
 - Vite
 - Tailwind CSS
 - Supabase
+
+## Setup
+
+```bash
+git clone <repo-url>
+cd ec-app
+npm install
+npm run dev
