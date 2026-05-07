@@ -42,11 +42,12 @@ function CheckoutPage({ cart, totalPrice, clearCart }: Props) {
 
     try {
       await createOrder({
-        cusutomerName: form.name,
+        customerName: form.name,
         email: form.email,
         address: form.address,
         phone: form.phone,
-        totalPrice
+        totalPrice,
+        cart
       })
 
             // カートをクリア
