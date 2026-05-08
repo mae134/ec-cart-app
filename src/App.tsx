@@ -5,6 +5,7 @@ import ProductDetailPage from './pages/ProductDetailPage'
 import useCart from './hooks/useCart'
 import CheckoutPage from './pages/CheckoutPage'
 import OrderCompletePage from './pages/OrderCompletePage'
+import OrdersPage from './pages/OrdersPage'
 
 function App() {
   // カートの状態と操作関数をuseCartフックから取得
@@ -31,7 +32,7 @@ function App() {
         }
       />
       {/* 商品詳細ページ */}
-      <Route path="/product/:id" element={<ProductDetailPage/>} />
+      <Route path="/product/:id" element={<ProductDetailPage />} />
 
       {/* チェックアウトページ */}
       <Route
@@ -39,8 +40,11 @@ function App() {
         element={<CheckoutPage cart={cart} totalPrice={totalPrice} clearCart={clearCart} />}
       />
 
-        {/* 注文完了ページ */}
+      {/* 注文完了ページ */}
       <Route path="/order-complete" element={<OrderCompletePage />} />
+
+      {/* 注文履歴ページ */}
+      <Route path="/orders" element={<OrdersPage />} />
     </Routes>
   )
 }

@@ -22,9 +22,9 @@ export async function createOrder(params: CreateOrderParams) {
       total_price: params.totalPrice
     }).select().single()
 
-    if(orderError){
-      throw new Error(orderError.message)
-    }
+  if (orderError) {
+    throw new Error(orderError.message)
+  }
 
   // 注文が作成できたら、次は注文に紐づくアイテムをorder_itemsテーブルに挿入
   const items = params.cart.map(item => ({
@@ -38,7 +38,31 @@ export async function createOrder(params: CreateOrderParams) {
   // 注文に紐づくアイテムをorder_itemsテーブルに挿入
   const { error: itemsError } = await supabase.from('order_items').insert(items)
 
-  if(itemsError){
+  if (itemsError) {
     throw new Error(itemsError.message)
   }
+}
+
+export async function fetchOrders() {
+    const { data, error } = await supabase.from('orders').select(
+      `id,
+      customer_name,
+      email,
+      address,
+      phone,
+      total_price,
+      created_at,
+      order_items (
+        id,
+        product_name,
+        price,
+        quantity
+      )
+    `).order('created_at', { ascending: false })
+
+    if(error){
+      throw new Error(error.message)
+    }
+
+    return data
 }
