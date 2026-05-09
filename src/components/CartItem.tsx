@@ -16,7 +16,7 @@ function CartItem({ item, onUpdateQuantity }: Props) {
       <div className="flex items-center gap-2">
         <button
           onClick={() =>
-            onUpdateQuantity(item.id, item.quantity - 1)
+            onUpdateQuantity(item.id, -1)
           }
           className="px-2 py-1 border"
         >
@@ -27,7 +27,7 @@ function CartItem({ item, onUpdateQuantity }: Props) {
 
         <button
           onClick={() =>
-            onUpdateQuantity(item.id, item.quantity + 1)
+            onUpdateQuantity(item.id, 1)
           }
           className="px-2 py-1 border"
         >
