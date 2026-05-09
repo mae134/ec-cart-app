@@ -1,55 +1,34 @@
-type CartItem = {
-  id: number
-  name: string
-  price: number
-  quantity: number
-}
+import type { CartItem as CartItemType } from '../hooks/useCart'
+import CartItem from './CartItem'
 
-type CartProps = {
-  cart: CartItem[]
+type Props = {
+  cart: CartItemType[]
   totalPrice: number
-  onUpdateQuantity: (productId: number, delta: number) => void
+  onUpdateQuantity: (id: number, quantity: number) => void
 }
 
-function Cart({ cart, totalPrice, onUpdateQuantity }: CartProps) {
+function Cart({ cart, totalPrice, onUpdateQuantity }: Props) {
+  if (cart.length === 0) {
+    return <p>Your cart is empty.</p>
+  }
+
   return (
-    <div className="w-1/3 p-6 border-l">
-      <h2 className="text-xl font-bold mb-4">Cart</h2>
+    <div className="space-y-4">
+      {/* 商品リスト */}
+      {cart.map((item) => (
+        <CartItem
+          key={item.id}
+          item={item}
+          onUpdateQuantity={onUpdateQuantity}
+        />
+      ))}
 
-      {cart.length === 0 ? (
-        <p className="text-gray-500">Cart is empty</p>
-      ) : (
-        <>
-          {cart.map((item) => (
-            <div key={item.id} className="mb-3 border-b pb-3">
-              <p className="font-semibold">{item.name}</p>
-              <p>¥{item.price}</p>
-
-              <div className="mt-2 flex items-center gap-2">
-                <button
-                  onClick={() => onUpdateQuantity(item.id, -1)}
-                  className="px-3 py-1 rounded bg-gray-200"
-                >
-                  -
-                </button>
-
-                <span>{item.quantity}</span>
-
-                <button
-                  onClick={() => onUpdateQuantity(item.id, 1)}
-                  className="px-3 py-1 rounded bg-gray-200"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          ))}
-
-          <div className="mt-6 border-t pt-4">
-            <p className="text-lg font-bold">Total: ¥{totalPrice}</p>
-          </div>
-        </>
-      )}
+      {/* 合計 */}
+      <div className="mt-6 border-t pt-4">
+        <p className="text-xl font-bold">
+          Total: ¥{totalPrice}
+        </p>
+      </div>
     </div>
   )
 }

@@ -27,6 +27,7 @@ function App() {
           <CartPage
             cart={cart}
             totalPrice={totalPrice}
+            totalItems={cart.reduce((sum, item) => sum + item.quantity, 0)}
             onUpdateQuantity={updateQuantity}
           />
         }
