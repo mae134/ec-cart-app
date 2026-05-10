@@ -28,6 +28,7 @@ function App() {
             cart={cart}
             totalPrice={totalPrice}
             totalItems={cart.reduce((sum, item) => sum + item.quantity, 0)}
+            clearCart={clearCart}
             onUpdateQuantity={updateQuantity}
           />
         }
