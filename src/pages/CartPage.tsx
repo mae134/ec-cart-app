@@ -35,11 +35,22 @@ function CartPage({
           <div className="mt-6 flex justify-end gap-3">
             <Link
               to="/checkout"
-              className="rounded bg-yellow-400 px-6 py-3 font-bold text-gray-900 hover:bg-yellow-300" 
+              className="rounded bg-yellow-400 px-6 py-3 font-bold text-gray-900 hover:bg-yellow-300"
             >
               Proceed to Checkout
             </Link>
-            <button className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600" onClick={clearCart}>
+            <button
+              className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+              onClick={() => {
+                const confirmed = window.confirm(
+                  'Are you sure you want to clear the cart?',
+                )
+
+                if (confirmed) {
+                  clearCart()
+                }
+              }}
+            >
               Clear Cart
             </button>
           </div>
