@@ -47,6 +47,9 @@ function App() {
 
       {/* 注文履歴ページ */}
       <Route path="/orders" element={<OrdersPage />} />
+
+      {/* ページ */}
+      <Route path="/login" element={<OrdersPage />} />
     </Routes>
   )
 }

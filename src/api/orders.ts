@@ -12,9 +12,19 @@ type CreateOrderParams = {
 
 export async function createOrder(params: CreateOrderParams) {
 
+  // ユーザー情報を取得
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if(!user) {
+    throw new Error('User is not logged in')
+  }
+
   // まずはordersテーブルに注文情報を挿入して注文を作成
   const { data: order, error: orderError } = await supabase.from('orders').insert(
     {
+      user_id: user.id,
       customer_name: params.customerName,
       email: params.email,
       address: params.address,
@@ -44,8 +54,8 @@ export async function createOrder(params: CreateOrderParams) {
 }
 
 export async function fetchOrders() {
-    const { data, error } = await supabase.from('orders').select(
-      `id,
+  const { data, error } = await supabase.from('orders').select(
+    `id,
       customer_name,
       email,
       address,
@@ -60,9 +70,9 @@ export async function fetchOrders() {
       )
     `).order('created_at', { ascending: false })
 
-    if(error){
-      throw new Error(error.message)
-    }
+  if (error) {
+    throw new Error(error.message)
+  }
 
-    return data
+  return data
 }

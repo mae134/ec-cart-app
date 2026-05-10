@@ -50,7 +50,7 @@ function CheckoutPage({ cart, totalPrice, clearCart }: Props) {
         cart
       })
 
-            // カートをクリア
+      // カートをクリア
       clearCart()
       // オーダー完了画面へ遷移
       navigate('/order-complete')
