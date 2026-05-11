@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom'
 import ProductList from '../components/ProductList'
 import type { Product } from '../types/product'
 import type { CartItem } from '../hooks/useCart'
 import { useEffect, useState } from 'react'
 import { fetchProducts } from '../api/products'
+import Header from '../components/Header'
 
 type Props = {
   cart: CartItem[]
@@ -33,17 +33,7 @@ function ProductPage({ cart, onAddToCart }: Props) {
 
   return (
     <div className="min-h-screen bg-gray-200">
-      <header className="bg-slate-900 px-6 py-4 text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <h1 className="text-xl font-bold">EC Store</h1>
-          <Link
-            to="/cart"
-            className="rounded bg-yellow-400 px-4 py-2 font-medium text-gray-900"
-          >
-            Cart ({totalItems})
-          </Link>
-        </div>
-      </header>
+      <Header totalItems={totalItems} />
 
       <main className="mx-auto max-w-7xl p-6">
         {loading && <p>Loading products...</p>}

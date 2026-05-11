@@ -11,6 +11,11 @@ function useCart() {
     return stored ? JSON.parse(stored) : []
   })
 
+  // カートをからにする処理
+  function clearCart() {
+    setCart([])
+  }
+
   // カートの状態が変わるたびにlocalStorageに保存
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart))
@@ -49,7 +54,7 @@ function useCart() {
     0,
   )
 
-  return { cart, addToCart, updateQuantity, totalPrice }
+  return { cart, addToCart, updateQuantity, totalPrice, clearCart }
 }
 
 export default useCart
