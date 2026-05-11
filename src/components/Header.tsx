@@ -16,6 +16,12 @@ function Header({ totalItems }: Props) {
         {/* ナビゲーション */}
         <div className="flex items-center gap-3">
           <Link
+            to="/login"
+            className="rounded bg-slate-700 px-3 py-2 text-sm text-white hover:bg-slate-600"
+          >
+            Login
+          </Link>
+          <Link
             to="/orders"
             className="rounded bg-slate-700 px-3 py-2 text-sm text-white hover:bg-slate-600"
           >
