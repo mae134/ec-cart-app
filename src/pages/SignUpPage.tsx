@@ -1,16 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { validateAuthForm } from '../utils/validateAuthForm'
 
-function LoginPage() {
-  const navigate = useNavigate()
+function SignUpPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
     const errorMessage = validateAuthForm({
       email,
       password,
@@ -21,7 +19,7 @@ function LoginPage() {
       return
     }
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
     })
@@ -31,13 +29,13 @@ function LoginPage() {
       return
     }
 
-    navigate('/')
+    setMessage('Sign up successful. Please check your email.')
   }
 
   return (
     <div className="min-h-screen bg-gray-200 p-6">
       <div className="mx-auto max-w-md rounded bg-white p-6">
-        <h1 className="text-2xl font-bold">Login</h1>
+        <h1 className="text-2xl font-bold">Sign Up</h1>
 
         <div className="mt-6 space-y-4">
           <input
@@ -58,21 +56,21 @@ function LoginPage() {
         </div>
 
         {message && <p className="mt-4 text-sm text-red-500">{message}</p>}
-
-        <div className="mt-6 flex gap-3">
+        
+        <div className="mt-6 flex items-center gap-3">
           <button
             type="button"
-            onClick={handleLogin}
+            onClick={handleSignUp}
             className="rounded bg-slate-900 px-4 py-2 text-white"
           >
-            Login
+            Sign up
           </button>
 
           <Link
-            to="/signup"
+            to="/login"
             className="rounded bg-gray-300 px-4 py-2 text-gray-900"
           >
-            Sign up
+            Back to Login
           </Link>
         </div>
       </div>
@@ -80,4 +78,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default SignUpPage
