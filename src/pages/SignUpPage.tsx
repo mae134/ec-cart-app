@@ -9,6 +9,8 @@ function SignUpPage() {
   const [message, setMessage] = useState('')
 
   const handleSignUp = async () => {
+
+    // フォームのバリデーション
     const errorMessage = validateAuthForm({
       email,
       password,
@@ -19,7 +21,7 @@ function SignUpPage() {
       return
     }
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     })
@@ -29,7 +31,12 @@ function SignUpPage() {
       return
     }
 
-    setMessage('Sign up successful. Please check your email.')
+    // email確認メッセージの送信は、Supabaseの設定によって異なります。
+    if (data.session) {
+      setMessage('Account created successfully.')
+    } else {
+      setMessage('Sign up successful. Please check your email.')
+    }
   }
 
   return (
@@ -56,7 +63,7 @@ function SignUpPage() {
         </div>
 
         {message && <p className="mt-4 text-sm text-red-500">{message}</p>}
-        
+
         <div className="mt-6 flex items-center gap-3">
           <button
             type="button"

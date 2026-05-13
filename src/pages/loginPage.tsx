@@ -11,6 +11,8 @@ function LoginPage() {
   const [message, setMessage] = useState('')
 
   const handleLogin = async () => {
+
+    // フォームのバリデーション
     const errorMessage = validateAuthForm({
       email,
       password,
