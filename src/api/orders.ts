@@ -1,5 +1,6 @@
-import type { CartItem } from '../hooks/useCart'
+import { useAuth } from '../contexts/AuthContext'
 import { supabase } from '../lib/supabase'
+import type { CartItem } from '../hooks/useCart'
 
 type CreateOrderParams = {
   customerName: string
@@ -13,11 +14,9 @@ type CreateOrderParams = {
 export async function createOrder(params: CreateOrderParams) {
 
   // ユーザー情報を取得
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { user } = useAuth()
 
-  if(!user) {
+  if (!user) {
     throw new Error('User is not logged in')
   }
 

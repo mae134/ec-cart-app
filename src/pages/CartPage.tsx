@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Cart from '../components/Cart'
 import type { CartItem } from '../hooks/useCart'
-import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 
 type Props = {
@@ -28,10 +27,6 @@ function CartPage({
   const navigate = useNavigate()
 
   const handleCheckout = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
     if (!user) {
       navigate('/login')
       return

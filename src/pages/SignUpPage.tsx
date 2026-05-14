@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
 import { validateAuthForm } from '../utils/validateAuthForm'
+import { useAuth } from '../contexts/AuthContext'
 
 function SignUpPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+  const { signUp } = useAuth()
 
   const handleSignUp = async () => {
 
@@ -21,10 +22,7 @@ function SignUpPage() {
       return
     }
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
+    const { data, error } = await signUp(email, password)
 
     if (error) {
       setMessage(error.message)
