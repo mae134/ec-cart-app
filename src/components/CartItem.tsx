@@ -9,6 +9,11 @@ function CartItem({ item, onUpdateQuantity }: Props) {
   return (
     <div className="flex items-center justify-between rounded border p-4 bg-white">
       <div>
+        <img
+          src={item.imageUrl}
+          alt={item.name}
+          className="mb-4 h-40 w-full object-contain bg-white"
+        ></img>
         <p className="font-bold">{item.name}</p>
         <p className="text-sm text-gray-600">¥{item.price}</p>
       </div>

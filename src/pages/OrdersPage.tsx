@@ -5,6 +5,7 @@ import { fetchOrders } from '../api/orders'
 type OrderItem = {
   id: number
   product_name: string
+  image_url: string
   price: number
   quantity: number
 }
@@ -84,6 +85,11 @@ function OrdersPage() {
                     key={item.id}
                     className="flex justify-between text-sm"
                   >
+                    <img
+                      src={item.image_url}
+                      alt={item.product_name}
+                      className="h-20 w-20 rounded object-cover"
+                    />
                     <span>
                       {item.product_name} × {item.quantity}
                     </span>
