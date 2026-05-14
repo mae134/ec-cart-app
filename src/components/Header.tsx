@@ -1,36 +1,13 @@
-import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 type Props = {
   totalItems: number
 }
 
 function Header({ totalItems }: Props) {
-  const [userEmail, setUserEmail] = useState('')
-
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-
-      setUserEmail(user?.email ?? '')
-    }
-
-    getUser()
-  }, [])
-
-  async function handleLogout() {
-    const { error } = await supabase.auth.signOut()
-
-    if (error) {
-      console.error(error.message)
-      return
-    }
-
-    setUserEmail('')
-  }
+  // ログアウト失敗時のエラーメッセージの表示を行う
+  const { user, logout } = useAuth()
 
   return (
     <header className="bg-slate-900 px-6 py-4 text-white">
@@ -42,15 +19,15 @@ function Header({ totalItems }: Props) {
 
         {/* ナビゲーション */}
         <div className="flex items-center gap-3">
-          {userEmail ? (
+          {user ? (
             <>
               <span className="text-sm text-white">
-                {userEmail}
+                {user.email}
               </span>
 
               <button
                 type="button"
-                onClick={handleLogout}
+                onClick={logout}
                 className="rounded bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600"
               >
                 Logout
