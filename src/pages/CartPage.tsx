@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Cart from '../components/Cart'
 import type { CartItem } from '../hooks/useCart'
 import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 
 type Props = {
   cart: CartItem[]
@@ -20,6 +21,10 @@ function CartPage({
   onUpdateQuantity,
 }: Props) {
 
+  // ユーザーの認証状態を取得
+  const { user } = useAuth()
+
+  // 認証状態に応じた遷移を行うためのnavigate関数
   const navigate = useNavigate()
 
   const handleCheckout = async () => {
@@ -46,10 +51,18 @@ function CartPage({
           <div className="rounded bg-white p-6 text-center">
             <p className="mb-4">Your cart is empty.</p>
 
-            <div className="flex justify-center gap-3">
-              <Link to="/login" className="rounded bg-slate-900 px-4 py-2 text-white">Login</Link>
-              <Link to="/signup" className="rounded bg-gray-300 px-4 py-2 text-gray-900">Sign up</Link>
-            </div>
+            {/* 認証されていない場合のナビゲーション */}
+            {!user && (
+              <div className="flex justify-center gap-3">
+                <Link to="/login" className="rounded bg-slate-900 px-4 py-2 text-white">
+                  Login
+                </Link>
+                <Link to="/signup" className="rounded bg-gray-300 px-4 py-2 text-gray-900">
+                  Sign up
+                </Link>
+              </div>
+            )
+            }
           </div>
         ) : (
           <>
