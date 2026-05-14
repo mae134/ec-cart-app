@@ -8,10 +8,6 @@ type Props = {
 }
 
 function Cart({ cart, totalPrice, onUpdateQuantity }: Props) {
-  if (cart.length === 0) {
-    return <p>Your cart is empty.</p>
-  }
-
   return (
     <div className="space-y-4">
       {/* 商品リスト */}
