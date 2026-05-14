@@ -6,7 +6,6 @@ type Props = {
 }
 
 function Header({ totalItems }: Props) {
-  // ログアウト失敗時のエラーメッセージの表示を行う
   const { user, logout } = useAuth()
 
   return (
