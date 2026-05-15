@@ -64,7 +64,7 @@ function OrdersPage() {
         {loading && <p>Loading orders...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
-        {!loading && !error && orders.length === 0 && (
+        {!loading && !error && userOrders.length === 0 && (
           <p>No orders found.</p>
         )}
 
@@ -73,7 +73,7 @@ function OrdersPage() {
             <div key={order.id} className="rounded border p-4">
               <div className="mb-3 flex justify-between">
                 <div>
-                  <p className="font-bold">Order #{orderTotal -index}</p>
+                  <p className="font-bold">Order #{orderTotal - index}</p>
                   <p className="text-sm text-gray-600">
                     {new Date(order.created_at).toLocaleString()}
                   </p>
