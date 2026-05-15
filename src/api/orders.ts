@@ -1,5 +1,5 @@
-import type { CartItem } from '../hooks/useCart'
 import { supabase } from '../lib/supabase'
+import type { CartItem } from '../hooks/useCart'
 
 type CreateOrderParams = {
   customerName: string
@@ -8,23 +8,15 @@ type CreateOrderParams = {
   phone: string
   totalPrice: number
   cart: CartItem[]
+  userId: string
 }
 
 export async function createOrder(params: CreateOrderParams) {
 
-  // ユーザー情報を取得
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if(!user) {
-    throw new Error('User is not logged in')
-  }
-
   // まずはordersテーブルに注文情報を挿入して注文を作成
   const { data: order, error: orderError } = await supabase.from('orders').insert(
     {
-      user_id: user.id,
+      user_id: params.userId,
       customer_name: params.customerName,
       email: params.email,
       address: params.address,
@@ -38,12 +30,13 @@ export async function createOrder(params: CreateOrderParams) {
 
   // 注文が作成できたら、次は注文に紐づくアイテムをorder_itemsテーブルに挿入
   const items = params.cart.map(item => ({
-    order_id: order.id,
-    product_id: item.id,
-    product_name: item.name,
-    price: item.price,
-    quantity: item.quantity
-  }))
+  order_id: order.id,
+  product_id: item.id,
+  product_name: item.name,
+  image_url: item.imageUrl,
+  price: item.price,
+  quantity: item.quantity
+}))
 
   // 注文に紐づくアイテムをorder_itemsテーブルに挿入
   const { error: itemsError } = await supabase.from('order_items').insert(items)
@@ -65,6 +58,7 @@ export async function fetchOrders() {
       order_items (
         id,
         product_name,
+        image_url,
         price,
         quantity
       )

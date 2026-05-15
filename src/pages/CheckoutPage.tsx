@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import type { CartItem } from '../hooks/useCart'
 import { useState } from 'react'
 import { createOrder } from '../api/orders'
+import { useAuth } from '../contexts/AuthContext'
 
 type Props = {
   cart: CartItem[]
@@ -10,18 +11,18 @@ type Props = {
 }
 
 function CheckoutPage({ cart, totalPrice, clearCart }: Props) {
-
+  // ユーザー情報を取得
+  const { user } = useAuth()
   const [form, setForm] = useState({
     name: '',
     email: '',
-    address: '', 
+    address: '',
     phone: '',
   })
   const navigate = useNavigate()
 
   const handleSubmit = async () => {
 
-    // 以下各バリデーション
     // カートが空なら注文できない
     if (cart.length === 0) {
       alert('Your cart is empty')
@@ -40,6 +41,12 @@ function CheckoutPage({ cart, totalPrice, clearCart }: Props) {
       return
     }
 
+    if (!user) {
+      alert('Please login to place an order')
+      navigate('/login')
+      return
+    }
+
     try {
       await createOrder({
         customerName: form.name,
@@ -47,14 +54,15 @@ function CheckoutPage({ cart, totalPrice, clearCart }: Props) {
         address: form.address,
         phone: form.phone,
         totalPrice,
-        cart
+        cart,
+        userId: user.id
       })
 
-      // カートをクリア
       clearCart()
       // オーダー完了画面へ遷移
       navigate('/order-complete')
     } catch (error) {
+      console.error(error)
       alert('Failed to place order')
       return
     }

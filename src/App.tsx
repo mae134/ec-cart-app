@@ -6,6 +6,8 @@ import useCart from './hooks/useCart'
 import CheckoutPage from './pages/CheckoutPage'
 import OrderCompletePage from './pages/OrderCompletePage'
 import OrdersPage from './pages/OrdersPage'
+import LoginPage from './pages/LoginPage'
+import SignUpPage from './pages/SignUpPage'
 
 function App() {
   // カートの状態と操作関数をuseCartフックから取得
@@ -48,8 +50,11 @@ function App() {
       {/* 注文履歴ページ */}
       <Route path="/orders" element={<OrdersPage />} />
 
-      {/* ページ */}
-      <Route path="/login" element={<OrdersPage />} />
+      {/* 認証ページ */}
+      <Route path="/login" element={<LoginPage />} />
+
+      {/* サインアップページ */}
+      <Route path="/signup" element={<SignUpPage />} />
     </Routes>
   )
 }

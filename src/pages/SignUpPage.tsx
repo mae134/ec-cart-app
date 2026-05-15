@@ -1,16 +1,15 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { validateAuthForm } from '../utils/validateAuthForm'
 import { useAuth } from '../contexts/AuthContext'
 
-function LoginPage() {
-  const navigate = useNavigate()
+function SignUpPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
-  const { login } = useAuth()
+  const { signUp } = useAuth()
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
 
     // フォームのバリデーション
     const errorMessage = validateAuthForm({
@@ -23,20 +22,25 @@ function LoginPage() {
       return
     }
 
-    const error = await login(email, password)
+    const { data, error } = await signUp(email, password)
 
     if (error) {
       setMessage(error.message)
       return
     }
 
-    navigate('/')
+    // email確認メッセージの送信は、Supabaseの設定によって異なります。
+    if (data.session) {
+      setMessage('Account created successfully.')
+    } else {
+      setMessage('Sign up successful. Please check your email.')
+    }
   }
 
   return (
     <div className="min-h-screen bg-gray-200 p-6">
       <div className="mx-auto max-w-md rounded bg-white p-6">
-        <h1 className="text-2xl font-bold">Login</h1>
+        <h1 className="text-2xl font-bold">Sign Up</h1>
 
         <div className="mt-6 space-y-4">
           <input
@@ -58,20 +62,20 @@ function LoginPage() {
 
         {message && <p className="mt-4 text-sm text-red-500">{message}</p>}
 
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex items-center gap-3">
           <button
             type="button"
-            onClick={handleLogin}
+            onClick={handleSignUp}
             className="rounded bg-slate-900 px-4 py-2 text-white"
           >
-            Login
+            Sign up
           </button>
 
           <Link
-            to="/signup"
+            to="/login"
             className="rounded bg-gray-300 px-4 py-2 text-gray-900"
           >
-            Sign up
+            Back to Login
           </Link>
         </div>
       </div>
@@ -79,4 +83,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default SignUpPage
