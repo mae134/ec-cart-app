@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchOrders } from '../api/orders'
+import { useAuth } from '../contexts/AuthContext'
 
 type OrderItem = {
   id: number
@@ -12,6 +13,7 @@ type OrderItem = {
 
 type Order = {
   id: number
+  user_id: string | undefined
   customer_name: string
   email: string
   address: string
@@ -25,6 +27,13 @@ function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const { user } = useAuth()
+
+  // ログインユーザーの注文のみを表示
+  const userOrders = orders.filter(order => order.user_id === user?.id)
+
+  // 注文数を計算
+  const orderTotal = userOrders.length
 
   useEffect(() => {
     async function loadOrders() {
@@ -60,11 +69,11 @@ function OrdersPage() {
         )}
 
         <div className="space-y-4">
-          {orders.map((order) => (
+          {userOrders.map((order, index) => (
             <div key={order.id} className="rounded border p-4">
               <div className="mb-3 flex justify-between">
                 <div>
-                  <p className="font-bold">Order #{order.id}</p>
+                  <p className="font-bold">Order #{orderTotal -index}</p>
                   <p className="text-sm text-gray-600">
                     {new Date(order.created_at).toLocaleString()}
                   </p>

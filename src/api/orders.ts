@@ -47,8 +47,9 @@ export async function createOrder(params: CreateOrderParams) {
 }
 
 export async function fetchOrders() {
-  const { data, error } = await supabase.from('orders').select(
-    `id,
+  const { data, error } = await supabase.from('orders').select(`
+      id,
+      user_id,
       customer_name,
       email,
       address,
