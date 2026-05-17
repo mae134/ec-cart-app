@@ -86,23 +86,30 @@ function OrdersPage() {
               <p className="text-sm">Email: {order.email}</p>
               <p className="text-sm">Address: {order.address}</p>
 
-              <div className="mt-4 border-t pt-3">
+              <div className="mt-4 border-t pt-3 space-y-4">
                 <p className="mb-2 font-semibold">Items</p>
 
                 {order.order_items.map((item) => (
                   <div
                     key={item.id}
-                    className="flex justify-between text-sm"
+                    className="flex items-center gap-4"
                   >
+                    {/* 商品画像は縮まない */}
                     <img
                       src={item.image_url}
                       alt={item.product_name}
-                      className="h-20 w-20 rounded object-cover"
+                      className="h-20 w-20 flex-shrink-0 rounded object-cover"
                     />
-                    <span>
-                      {item.product_name} × {item.quantity}
-                    </span>
-                    <span>¥{item.price * item.quantity}</span>
+
+                    {/* 商品名部分は柔軟に幅を伸縮 */}
+                    <div className="flex-1">
+                      <span>{item.product_name} × {item.quantity}</span>
+                    </div>
+
+                    {/* 金額は固定幅で右揃え */}
+                    <div className="w-24 text-right">
+                      ¥{item.price * item.quantity}
+                    </div>
                   </div>
                 ))}
               </div>
