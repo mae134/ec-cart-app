@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Cart from '../components/Cart'
 import type { CartItem } from '../hooks/useCart'
 import { useAuth } from '../contexts/AuthContext'
+import { useState } from 'react'
 
 type Props = {
   cart: CartItem[]
@@ -22,9 +23,10 @@ function CartPage({
 
   // ユーザーの認証状態を取得
   const { user } = useAuth()
-
   // 認証状態に応じた遷移を行うためのnavigate関数
   const navigate = useNavigate()
+  // 検索テキストの状態
+  const [searchText, setSearchText] = useState('')
 
   const handleCheckout = async () => {
     if (!user) {
@@ -36,7 +38,7 @@ function CartPage({
   }
   return (
     <div className="min-h-screen bg-gray-200">
-      <Header totalItems={totalItems} />
+      <Header totalItems={totalItems} searchText={searchText} onSearchChange={setSearchText} />
 
       <main className="mx-auto max-w-4xl p-6">
         <h1 className="mb-6 text-2xl font-bold">Cart</h1>

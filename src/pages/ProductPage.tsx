@@ -15,6 +15,11 @@ function ProductPage({ cart, onAddToCart }: Props) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
+  const [searchText, setSearchText] = useState('')
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchText.toLowerCase())
+  )
 
   useEffect(() => {
     async function loadProducts() {
@@ -33,13 +38,13 @@ function ProductPage({ cart, onAddToCart }: Props) {
 
   return (
     <div className="min-h-screen bg-gray-200">
-      <Header totalItems={totalItems} />
+      <Header totalItems={totalItems} searchText={searchText} onSearchChange={setSearchText} />
 
       <main className="mx-auto max-w-7xl p-6">
         {loading && <p>Loading products...</p>}
         {error && <p className="text-red-500">{error}</p>}
         {!loading && !error && (
-          <ProductList products={products} onAddToCart={onAddToCart} />
+          <ProductList products={filteredProducts} onAddToCart={onAddToCart} />
         )}
       </main>
     </div>

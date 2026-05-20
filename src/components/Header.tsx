@@ -3,9 +3,11 @@ import { useAuth } from '../contexts/AuthContext'
 
 type Props = {
   totalItems: number
+  searchText: string
+  onSearchChange: (value: string) => void
 }
 
-function Header({ totalItems }: Props) {
+function Header({ totalItems, searchText, onSearchChange }: Props) {
   const { user, logout } = useAuth()
 
   return (
@@ -15,6 +17,15 @@ function Header({ totalItems }: Props) {
         <h1 className="text-xl font-bold">
           <Link to="/">EC Store</Link>
         </h1>
+
+        {/* 検索フォーム */}
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchText}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="ml-4 w-128 rounded border px-2 py-1 bg-white text-black"
+        />
 
         {/* ナビゲーション */}
         <div className="flex items-center gap-3">
