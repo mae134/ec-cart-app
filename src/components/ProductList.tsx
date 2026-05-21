@@ -1,5 +1,6 @@
 import type { Product } from '../types/product'
 import { Link } from 'react-router-dom'
+import AddToCartButton from './AddToCartButton'
 
 type ProductListProps = {
   products: Product[]
@@ -24,12 +25,10 @@ function ProductList({ products, onAddToCart }: ProductListProps) {
             </p>
           </Link>
           <p>¥{product.price}</p>
-          <button
+          <AddToCartButton
             onClick={() => onAddToCart(product)}
-            className="mt-2 px-4 py-1 bg-blue-500 text-white rounded"
-          >
-            Add to Cart
-          </button>
+            className="w-full px-4 py-2 text-sm"
+          />
         </div>
       ))}
     </div>
