@@ -3,8 +3,11 @@ import type { Product } from '../types/product'
 import { fetchProductById } from '../api/products'
 import { useEffect, useState } from 'react'
 
+type Props = {
+  onAddToCart: (product: Product) => void
+}
 
-function ProductDetailPage() {
+function ProductDetailPage({ onAddToCart }: Props) {
 
   // URLパラメータから商品IDを取得
   const { id } = useParams()
@@ -26,23 +29,44 @@ function ProductDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-200 p-6">
-      <div className="mx-auto max-w-4xl bg-white p-6">
+  <div className="min-h-screen bg-gray-200 p-4 md:p-6">
+    <div className="mx-auto grid max-w-6xl gap-8 rounded bg-white p-6 lg:grid-cols-2">
+      <div className="rounded bg-gray-50 p-4">
         <img
           src={product.imageUrl}
           alt={product.name}
-          className="mb-6 h-64 w-full object-contain bg-white"
+          className="aspect-square w-full object-contain"
         />
+      </div>
 
-        <h1 className="text-2xl font-bold">{product.name}</h1>
-        <p className="mt-4 text-lg">¥{product.price}</p>
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold md:text-3xl">
+          {product.name}
+        </h1>
 
-        <Link to="/" className="mt-6 inline-block text-blue-500">
-          ← Back
+        <p className="text-2xl font-semibold text-red-500">
+          ¥{product.price}
+        </p>
+
+        <p className="text-sm text-gray-600">
+          This product is available for online purchase.
+        </p>
+
+        <button
+          type="button"
+          className="mt-2 rounded bg-yellow-400 px-6 py-3 font-bold text-gray-900 hover:bg-yellow-300"
+          onClick={() => onAddToCart(product)}
+        >
+          Add to Cart
+        </button>
+
+        <Link to="/" className="mt-4 text-blue-600 hover:underline">
+          ← Back to Products
         </Link>
       </div>
     </div>
-  )
+  </div>
+)
 }
 
 export default ProductDetailPage
