@@ -20,8 +20,8 @@ function Cart({ cart, totalPrice, onUpdateQuantity }: Props) {
       ))}
 
       {/* 合計 */}
-      <div className="mt-6 border-t pt-4">
-        <p className="text-xl font-bold">
+      <div className="mt-6 rounded bg-white p-4 shadow-sm">
+        <p className="text-right text-xl font-bold">
           Total: ¥{totalPrice}
         </p>
       </div>

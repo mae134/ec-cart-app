@@ -45,7 +45,7 @@ function CartPage({
 
         {/* カートの中身が空の場合は認証導線 */}
         {cart.length === 0 ? (
-          <div className="rounded bg-white p-6 text-center">
+          <div className="rounded bg-white p-8 text-center shadow-sm">
             <p className="mb-4">Your cart is empty.</p>
 
             {/* 認証されていない場合のナビゲーション */}
@@ -68,14 +68,9 @@ function CartPage({
               totalPrice={totalPrice}
               onUpdateQuantity={onUpdateQuantity}
             />
-            <div className="mt-6 flex justify-end gap-3">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
               <button
-                onClick={handleCheckout}
-                className="rounded bg-yellow-400 px-6 py-3 font-bold text-gray-900 hover:bg-yellow-300"
-              >
-                Proceed to Checkout
-              </button>
-              <button
+                type="button" // 意図しないsubmitを防ぐため明示
                 className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
                 onClick={() => {
                   const confirmed = window.confirm(
@@ -88,6 +83,13 @@ function CartPage({
                 }}
               >
                 Clear Cart
+              </button>
+              <button
+                type="button"
+                onClick={handleCheckout}
+                className="rounded bg-yellow-400 px-6 py-3 font-bold text-gray-900 hover:bg-yellow-300"
+              >
+                Proceed to Checkout
               </button>
             </div>
           </>
