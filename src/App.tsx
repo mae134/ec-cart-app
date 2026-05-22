@@ -36,7 +36,7 @@ function App() {
         }
       />
       {/* 商品詳細ページ */}
-      <Route path="/product/:id" element={<ProductDetailPage />} />
+      <Route path="/product/:id" element={<ProductDetailPage onAddToCart={addToCart} />} />
 
       {/* チェックアウトページ */}
       <Route
