@@ -70,8 +70,8 @@ function OrdersPage() {
 
         <div className="space-y-4">
           {userOrders.map((order, index) => (
-            <div key={order.id} className="rounded border p-4">
-              <div className="mb-3 flex justify-between">
+            <div key={order.id} className="rounded bg-white p-4 shadow-sm">
+              <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:justify-between">
                 <div>
                   <p className="font-bold">Order #{orderTotal - index}</p>
                   <p className="text-sm text-gray-600">
@@ -102,12 +102,18 @@ function OrdersPage() {
                     />
 
                     {/* 商品名部分は柔軟に幅を伸縮 */}
-                    <div className="flex-1">
-                      <span>{item.product_name} × {item.quantity}</span>
+                    <div className="min-w-0 flex-1">
+                      <span className="break-words">
+                        {item.product_name} × {item.quantity}
+                      </span>
+                      {/* 金額は固定幅で右揃え */}
+                      <p className="mt-1 text-sm font-medium text-gray-700 sm:hidden">
+                        ¥{item.price * item.quantity}
+                      </p>
                     </div>
-
-                    {/* 金額は固定幅で右揃え */}
-                    <div className="w-24 text-right">
+                    
+                    {/* PC以上では右側に金額表示 */}
+                    <div className="hidden w-24 text-right text-sm font-medium sm:block">
                       ¥{item.price * item.quantity}
                     </div>
                   </div>
