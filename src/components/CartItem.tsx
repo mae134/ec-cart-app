@@ -7,32 +7,38 @@ type Props = {
 
 function CartItem({ item, onUpdateQuantity }: Props) {
   return (
-    <div className="flex items-center justify-between rounded border p-4 bg-white">
-      <div>
-        <p className="font-bold">{item.name}</p>
-        <p className="text-sm text-gray-600">¥{item.price}</p>
-      </div>
+    <div className="flex gap-4 rounded border bg-white p-4">
+      <img
+        src={item.imageUrl}
+        alt={item.name}
+        className="h-24 w-24 flex-shrink-0 rounded bg-white object-contain"
+      />
 
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() =>
-            onUpdateQuantity(item.id, -1)
-          }
-          className="px-2 py-1 border"
-        >
-          -
-        </button>
+      <div className="min-w-0 flex flex-col gap-2">
+        <p className="break-words font-bold">{item.name}</p>
+        <p className="break-words text-sm text-gray-600">¥{item.price}</p>
 
-        <span>{item.quantity}</span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => onUpdateQuantity(item.id, -1)}
+            className="rounded border px-3 py-1 hover:bg-gray-100"
+          >
+            -
+          </button>
 
-        <button
-          onClick={() =>
-            onUpdateQuantity(item.id, 1)
-          }
-          className="px-2 py-1 border"
-        >
-          +
-        </button>
+          <span className="min-w-[24px] text-center font-medium">
+            {item.quantity}
+          </span>
+
+          <button
+            type="button"
+            onClick={() => onUpdateQuantity(item.id, 1)}
+            className="rounded border px-3 py-1 hover:bg-gray-100"
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
   )

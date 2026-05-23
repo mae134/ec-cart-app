@@ -8,15 +8,21 @@ function OrderCompletePage() {
 
         <p className="mt-4">Thank you for your order.</p>
 
-        <Link to="/" className="mt-6 inline-block rounded bg-slate-900 px-4 py-2 font-medium text-white">
-          Back to Products
-        </Link>
-        <Link
-          to="/orders"
-          className="mt-4 inline-block text-blue-600 hover:underline"
-        >
-          View Order History
-        </Link>
+        <div className="mt-8 flex justify-center gap-4">
+          <Link
+            to="/"
+            className="rounded bg-slate-900 px-6 py-3 font-medium text-white hover:bg-slate-800"
+          >
+            Back to Products
+          </Link>
+
+          <Link
+            to="/orders"
+            className="rounded border border-slate-300 bg-white px-6 py-3 font-medium text-slate-900 hover:bg-slate-100"
+          >
+            View Order History
+          </Link>
+        </div>
       </div>
     </div>
   )

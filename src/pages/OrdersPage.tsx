@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchOrders } from '../api/orders'
+import { useAuth } from '../contexts/AuthContext'
 
 type OrderItem = {
   id: number
   product_name: string
+  image_url: string
   price: number
   quantity: number
 }
 
 type Order = {
   id: number
+  user_id: string | undefined
   customer_name: string
   email: string
   address: string
@@ -24,6 +27,13 @@ function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const { user } = useAuth()
+
+  // ログインユーザーの注文のみを表示
+  const userOrders = orders.filter(order => order.user_id === user?.id)
+
+  // 注文数を計算
+  const orderTotal = userOrders.length
 
   useEffect(() => {
     async function loadOrders() {
@@ -54,16 +64,16 @@ function OrdersPage() {
         {loading && <p>Loading orders...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
-        {!loading && !error && orders.length === 0 && (
+        {!loading && !error && userOrders.length === 0 && (
           <p>No orders found.</p>
         )}
 
         <div className="space-y-4">
-          {orders.map((order) => (
-            <div key={order.id} className="rounded border p-4">
-              <div className="mb-3 flex justify-between">
+          {userOrders.map((order, index) => (
+            <div key={order.id} className="rounded bg-white p-4 shadow-sm">
+              <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:justify-between">
                 <div>
-                  <p className="font-bold">Order #{order.id}</p>
+                  <p className="font-bold">Order #{orderTotal - index}</p>
                   <p className="text-sm text-gray-600">
                     {new Date(order.created_at).toLocaleString()}
                   </p>
@@ -76,18 +86,36 @@ function OrdersPage() {
               <p className="text-sm">Email: {order.email}</p>
               <p className="text-sm">Address: {order.address}</p>
 
-              <div className="mt-4 border-t pt-3">
+              <div className="mt-4 border-t pt-3 space-y-4">
                 <p className="mb-2 font-semibold">Items</p>
 
                 {order.order_items.map((item) => (
                   <div
                     key={item.id}
-                    className="flex justify-between text-sm"
+                    className="flex items-center gap-4"
                   >
-                    <span>
-                      {item.product_name} × {item.quantity}
-                    </span>
-                    <span>¥{item.price * item.quantity}</span>
+                    {/* 商品画像は縮まない */}
+                    <img
+                      src={item.image_url}
+                      alt={item.product_name}
+                      className="h-20 w-20 flex-shrink-0 rounded object-cover"
+                    />
+
+                    {/* 商品名部分は柔軟に幅を伸縮 */}
+                    <div className="min-w-0 flex-1">
+                      <span className="break-words">
+                        {item.product_name} × {item.quantity}
+                      </span>
+                      {/* 金額は固定幅で右揃え */}
+                      <p className="mt-1 text-sm font-medium text-gray-700 sm:hidden">
+                        ¥{item.price * item.quantity}
+                      </p>
+                    </div>
+                    
+                    {/* PC以上では右側に金額表示 */}
+                    <div className="hidden w-24 text-right text-sm font-medium sm:block">
+                      ¥{item.price * item.quantity}
+                    </div>
                   </div>
                 ))}
               </div>

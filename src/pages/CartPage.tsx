@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Cart from '../components/Cart'
 import type { CartItem } from '../hooks/useCart'
+import { useAuth } from '../contexts/AuthContext'
+import { useState } from 'react'
 
 type Props = {
   cart: CartItem[]
@@ -18,42 +20,79 @@ function CartPage({
   clearCart,
   onUpdateQuantity,
 }: Props) {
+
+  // ユーザーの認証状態を取得
+  const { user } = useAuth()
+  // 認証状態に応じた遷移を行うためのnavigate関数
+  const navigate = useNavigate()
+  // 検索テキストの状態
+  const [searchText, setSearchText] = useState('')
+
+  const handleCheckout = async () => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
+
+    navigate('/checkout')
+  }
   return (
     <div className="min-h-screen bg-gray-200">
-      <Header totalItems={totalItems} />
+      <Header totalItems={totalItems} searchText={searchText} onSearchChange={setSearchText} />
 
       <main className="mx-auto max-w-4xl p-6">
         <h1 className="mb-6 text-2xl font-bold">Cart</h1>
 
-        <Cart
-          cart={cart}
-          totalPrice={totalPrice}
-          onUpdateQuantity={onUpdateQuantity}
-        />
+        {/* カートの中身が空の場合は認証導線 */}
+        {cart.length === 0 ? (
+          <div className="rounded bg-white p-8 text-center shadow-sm">
+            <p className="mb-4">Your cart is empty.</p>
 
-        {cart.length > 0 && (
-          <div className="mt-6 flex justify-end gap-3">
-            <Link
-              to="/checkout"
-              className="rounded bg-yellow-400 px-6 py-3 font-bold text-gray-900 hover:bg-yellow-300"
-            >
-              Proceed to Checkout
-            </Link>
-            <button
-              className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-              onClick={() => {
-                const confirmed = window.confirm(
-                  'Are you sure you want to clear the cart?',
-                )
-
-                if (confirmed) {
-                  clearCart()
-                }
-              }}
-            >
-              Clear Cart
-            </button>
+            {/* 認証されていない場合のナビゲーション */}
+            {!user && (
+              <div className="flex justify-center gap-3">
+                <Link to="/login" className="rounded bg-slate-900 px-4 py-2 text-white">
+                  Login
+                </Link>
+                <Link to="/signup" className="rounded bg-gray-300 px-4 py-2 text-gray-900">
+                  Sign up
+                </Link>
+              </div>
+            )
+            }
           </div>
+        ) : (
+          <>
+            <Cart
+              cart={cart}
+              totalPrice={totalPrice}
+              onUpdateQuantity={onUpdateQuantity}
+            />
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
+              <button
+                type="button" // 意図しないsubmitを防ぐため明示
+                className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                onClick={() => {
+                  const confirmed = window.confirm(
+                    'Are you sure you want to clear the cart?',
+                  )
+
+                  if (confirmed) {
+                    clearCart()
+                  }
+                }}
+              >
+                Clear Cart
+              </button>
+              <button
+                type="button"
+                onClick={handleCheckout}
+                className="rounded bg-yellow-400 px-6 py-3 font-bold text-gray-900 hover:bg-yellow-300"
+              >
+                Proceed to Checkout
+              </button>
+            </div>
+          </>
         )}
       </main>
     </div>
