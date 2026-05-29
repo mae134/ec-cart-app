@@ -3,10 +3,7 @@ import { calculateTotalItems } from './cartUtils'
 
 describe('calculateTotalItems', () => {
   it('returns total quantity of cart items', () => {
-    const cart = [
-      { quantity: 2 },
-      { quantity: 3 },
-    ]
+    const cart = [{ quantity: 2 }, { quantity: 3 }]
 
     expect(calculateTotalItems(cart)).toBe(5)
   })
